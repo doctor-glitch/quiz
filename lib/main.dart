@@ -14,10 +14,32 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   var index = 0;
-  var _question = ['Name', "Age", "Place"];
+  var _questionAnswerList = [
+    {
+      'question': 'Country',
+      'answer': ['India', 'Australia', 'Canada', 'US'],
+      'color': 800,
+    },
+    {
+      'question': 'Planet',
+      'answer': ['Earth', 'Mars', 'Pluto'],
+      'color': 600,
+    },
+    {
+      'question': 'Age',
+      'answer': ['less than 25', 'between 25 & 40', 'greater than 70'],
+      'color': 800,
+    },
+    {
+      'question': 'State',
+      'answer': ['Kerala', 'Karnataka', 'Rajasthan', 'Goa'],
+      'color': 400,
+    },
+  ];
+
   void questionsSelection() {
     setState(() {
-      if (this.index < 2)
+      if (this.index < 3)
         this.index += 1;
       else
         this.index = 0;
@@ -30,13 +52,21 @@ class MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           title: Text("Profile"),
+          backgroundColor: Colors.cyan,
         ),
         body: Column(
           children: [
-            Question(_question[index]),
-            Answer(questionsSelection),
-            Answer(questionsSelection),
-            Answer(questionsSelection),
+            Question(
+              _questionAnswerList[index]['question'],
+            ),
+            ...(_questionAnswerList[index]['answer'] as List<String>)
+                .map((answer) {
+              return Answer(
+                questionsSelection,
+                answer,
+                _questionAnswerList[index]['color'],
+              );
+            }).toList()
           ],
         ),
       ),
